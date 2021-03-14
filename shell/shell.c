@@ -40,6 +40,7 @@ int shell_cls(char **args);
 int shell_dog(char **args);
 int shell_frem(char **args);
 int shell_fmk(char **args);
+int shell_copy(char **args);
 int shell_exit(char **args);
 
 
@@ -53,6 +54,7 @@ char *builtin_str[] = {
   "dog",
   "frem",
   "fmk",
+  "copy",
   "exit"
 };
 
@@ -67,6 +69,7 @@ int (*builtin_func[]) (char **) = {
   &shell_dog,
   &shell_frem,
   &shell_fmk,
+  &shell_copy,
   &shell_exit
 };
 
@@ -138,7 +141,7 @@ int shell_frem(char **args){
   }
 
   else{
-    fprintf(stderr, "\n\nUnable to delete %s\n\n", args[1]);
+    fprintf(stderr, "\n\nshell: Unable to delete %s\n\n", args[1]);
   }
 
 
@@ -154,7 +157,7 @@ int shell_fmk(char **args){
   fptr = fopen(args[1], "w");
 
   if(!fptr){
-    fprintf(stderr, "\n\nCouldn't create file\n\n");
+    fprintf(stderr, "\n\nshell: Couldn't create file\n\n");
   }
 
 
@@ -162,6 +165,36 @@ int shell_fmk(char **args){
 
 
   return 1;
+}
+
+
+
+  
+int shell_copy(char **args){
+   char ch;
+   FILE *source, *target;
+
+   source = fopen(args[1], "r");
+
+   if (source == NULL){
+      fprintf(stderr, "\n\nshell: Couldn't open file\n\n");
+   }
+
+   target = fopen(args[2], "w");
+
+   if (target == NULL){
+      fclose(source);
+      fprintf(stderr, "\n\nshell: Couldn't open file\n\n");
+   }
+
+   while ((ch = fgetc(source)) != EOF){
+      fputc(ch, target);
+   }
+
+   printf("\nFile copied successfully.\n\n");
+
+   fclose(source);
+   fclose(target);
 }
 
 
