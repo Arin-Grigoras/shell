@@ -41,6 +41,7 @@ int shell_dog(char **args);
 int shell_frem(char **args);
 int shell_fmk(char **args);
 int shell_copy(char **args);
+int shell_hostnm(char **args);
 int shell_exit(char **args);
 
 
@@ -55,6 +56,7 @@ char *builtin_str[] = {
   "frem",
   "fmk",
   "copy",
+  "hostnm",
   "exit"
 };
 
@@ -70,6 +72,7 @@ int (*builtin_func[]) (char **) = {
   &shell_frem,
   &shell_fmk,
   &shell_copy,
+  &shell_hostnm,
   &shell_exit
 };
 
@@ -197,6 +200,16 @@ int shell_copy(char **args){
    fclose(target);
 
    return 1;
+}
+
+
+
+
+int shell_hostnm(char **args){
+
+  printf("\n\n%s\n\n", name);
+
+  return 1;
 }
 
 
