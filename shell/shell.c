@@ -224,6 +224,8 @@ int shell_dir(char **args){
   getcwd(cwd, sizeof(cwd));
 
   printf("\n%s\n\n", cwd);
+
+  return 1;
 }
 
 
