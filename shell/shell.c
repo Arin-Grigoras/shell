@@ -210,6 +210,8 @@ int shell_fmk(char **args){
 //recreation of the 'cp' command  
 int shell_copy(char **args){
 
+
+  //If there isn't a file specified it returns to the loop
   if(args[1] == NULL){
     fprintf(stderr, "\n\nshell: please provide a file\n\n");
     return 1;
@@ -221,23 +223,29 @@ int shell_copy(char **args){
 
    source = fopen(args[1], "r");
 
+   //if the file can't be opened
    if (source == NULL){
       fprintf(stderr, "\n\nshell: Couldn't open file\n\n");
    }
 
    target = fopen(args[2], "w");
 
+   //if the file can't be opened
    if (target == NULL){
       fclose(source);
       fprintf(stderr, "\n\nshell: Couldn't open file\n\n");
    }
 
+   //copies the first file into the second file
    while ((ch = fgetc(source)) != EOF){
       fputc(ch, target);
    }
 
+   //gives the user confirmation that the command worked
    printf("\nFile copied successfully.\n\n");
 
+
+   //closes the files
    fclose(source);
    fclose(target);
 
@@ -262,9 +270,9 @@ int shell_hostnm(char **args){
 int shell_path(char **args){
 
   char cwd[PATH_MAX];
-
+  //gets the curent working directory
   getcwd(cwd, sizeof(cwd));
-
+  //and prints it
   printf("\n%s\n\n", cwd);
 
   return 1;
@@ -279,6 +287,7 @@ int shell_hd(char **args){
 
   char *c = (char*)malloc(sizeof(char) * 100);
 
+  //If there isn't a file specified it returns to the loop
   if(args[1] == NULL){
     fprintf(stderr, "\n\nshell: please provide a file\n\n");
     return 1;
