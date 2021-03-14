@@ -24,6 +24,7 @@
 #include <string.h>
 #include <limits.h>
 #include <time.h>
+#include <errno.h>
 
 
 
@@ -185,7 +186,7 @@ int shell_frem(char **args){
 int shell_fmk(char **args){
 
   if(args[1] == NULL){
-    fprintf(stderr, "\n\nshell: please provide a file\n\n");
+    fprintf(stderr, "\n\nshell: please provide a name for the file\n\n");
     return 1;
   }
 
@@ -194,7 +195,7 @@ int shell_fmk(char **args){
   fptr = fopen(args[1], "w");
 
   if(!fptr){
-    fprintf(stderr, "\n\nshell: Couldn't create file\n\n");
+    fprintf(stderr, "\n\nshell: %s\n\n", strerror(errno));
   }
 
 
@@ -224,16 +225,16 @@ int shell_copy(char **args){
    source = fopen(args[1], "r");
 
    //if the file can't be opened
-   if (source == NULL){
+   if (!source){
       fprintf(stderr, "\n\nshell: Couldn't open file\n\n");
    }
 
    target = fopen(args[2], "w");
 
    //if the file can't be opened
-   if (target == NULL){
+   if (!target){
       fclose(source);
-      fprintf(stderr, "\n\nshell: Couldn't open file\n\n");
+      fprintf(stderr, "\n\nshell: %s\n\n", strerror(errno));
    }
 
    //copies the first file into the second file
@@ -297,8 +298,9 @@ int shell_hd(char **args){
 
   fptr = fopen(args[1], "r");
 
+  //If the file can't be opened
   if(!fptr){
-    fprintf(stderr, "\n\nshell: Couldn't open file");
+    fprintf(stderr, "\n\nshell: %s\n\n", strerror(errno));
   }
 
 
@@ -306,6 +308,7 @@ int shell_hd(char **args){
   printf("%s", c);
 
 
+  //frees the 'c' variable and closes the file
   free(c);
   fclose(fptr);
 
@@ -332,6 +335,7 @@ int shell_help(char **args){
   printf("Arn shell\n");
   printf("The following are built in:\n");
 
+  //loops through every command in the array
   for (i = 0; i < shell_num_builtins(); i++) {
     printf("  %s\n", builtin_str[i]);
   }
@@ -345,6 +349,7 @@ int shell_help(char **args){
 
 //exit command
 int shell_exit(char **args){
+  //exits the whole program
   return 0;
 }
 
@@ -390,6 +395,7 @@ int shell_execute(char **args){
     return 1;
   }
 
+  //loops through every function in the array
   for (i = 0; i < shell_num_builtins(); i++) {
     if (strcmp(args[0], builtin_str[i]) == 0) {
       return (*builtin_func[i])(args);
