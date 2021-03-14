@@ -54,19 +54,19 @@ int shell_exit(char **args);
 //DATA
 
 char *builtin_str[] = {
-  "cd",
-  "help",
-  "cls",
-  "dog",
-  "frem",
-  "fmk",
-  "copy",
-  "hostnm",
-  "path",
-  "hd",
+  "cd", //change directory
+  "help", //help command
+  "cls", //clearscreen command
+  "dog", //cat command but with another name
+  "frem", //file remove
+  "fmk", //file make
+  "copy", //copy file command
+  "hostnm", //hostname(prints out the host name)
+  "path",//path (prints out the current directory)
+  "hd", //head(prints out the first line in a file)
   //"tl",
-  "time",
-  "exit"
+  "time", //time(prints out the current time)
+  "exit" //exit(halts the program)
 };
 
 
