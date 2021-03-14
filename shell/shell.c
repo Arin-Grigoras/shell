@@ -14,6 +14,7 @@ char name[25];
 
 int shell_cd(char **args);
 int shell_help(char **args);
+int shell_cls(char **args);
 int shell_exit(char **args);
 
 
@@ -22,6 +23,8 @@ int shell_exit(char **args);
 char *builtin_str[] = {
   "cd",
   "help",
+  "cls",
+  "cat",
   "exit"
 };
 
@@ -31,6 +34,7 @@ char *builtin_str[] = {
 int (*builtin_func[]) (char **) = {
   &shell_cd,
   &shell_help,
+  &shell_cls,
   &shell_exit
 };
 
@@ -53,6 +57,15 @@ int shell_cd(char **args)
       perror("shell");
     }
   }
+  return 1;
+}
+
+
+
+
+int shell_cls(char **args){
+  printf("\e[1;1H\e[2J");
+
   return 1;
 }
 
