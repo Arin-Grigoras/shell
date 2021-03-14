@@ -1,3 +1,18 @@
+/*
+  __File = shell.c
+
+  __Author__ = Arin Grigoras
+
+  __Date__ = 14/3/2021
+
+  __Credits__ = https://github.com/brenns10/lsh
+
+
+*/
+
+
+
+
 //INCLUDES
 #include <sys/wait.h>
 #include <unistd.h>
@@ -100,15 +115,13 @@ int shell_dog(char **args){
 int shell_help(char **args)
 {
   int i;
-  printf("Stephen Brennan's shell\n");
-  printf("Type program names and arguments, and hit enter.\n");
+  printf("Arn shell\n");
   printf("The following are built in:\n");
 
   for (i = 0; i < shell_num_builtins(); i++) {
     printf("  %s\n", builtin_str[i]);
   }
 
-  printf("Use the man command for information on other programs.\n");
   return 1;
 }
 
