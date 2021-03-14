@@ -42,6 +42,7 @@ int shell_frem(char **args);
 int shell_fmk(char **args);
 int shell_copy(char **args);
 int shell_hostnm(char **args);
+int shell_dir(char **args);
 int shell_exit(char **args);
 
 
@@ -57,6 +58,7 @@ char *builtin_str[] = {
   "fmk",
   "copy",
   "hostnm",
+  "dir",
   "exit"
 };
 
@@ -73,6 +75,7 @@ int (*builtin_func[]) (char **) = {
   &shell_fmk,
   &shell_copy,
   &shell_hostnm,
+  &shell_dir,
   &shell_exit
 };
 
@@ -210,6 +213,17 @@ int shell_hostnm(char **args){
   printf("\n\n%s\n\n", name);
 
   return 1;
+}
+
+
+
+int shell_dir(char **args){
+
+  char cwd[PATH_MAX];
+
+  getcwd(cwd, sizeof(cwd));
+
+  printf("\n%s\n\n", cwd);
 }
 
 
