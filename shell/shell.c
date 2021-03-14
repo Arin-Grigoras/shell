@@ -141,7 +141,7 @@ int shell_dog(char **args){
   FILE *fptr = fopen(args[1], "r");
 
   if(!fptr){
-      perror("shell");
+      fprintf(stderr, "\n\nshell: %s\n\n", strerror(errno));
       return 1;
   }
 
@@ -439,7 +439,7 @@ char *shell_read_line(void){
   int c;
 
   if (!buffer) {
-    fprintf(stderr, "shell: allocation error\n");
+    fprintf(stderr, "\n\nshell: %s\n\n", strerror(errno));
     exit(EXIT_FAILURE);
   }
 
@@ -460,7 +460,7 @@ char *shell_read_line(void){
       bufsize += shell_RL_BUFSIZE;
       buffer = realloc(buffer, bufsize);
       if (!buffer) {
-        fprintf(stderr, "shell: allocation error\n");
+        fprintf(stderr, "\n\nshell: %s\n\n", strerror(errno));
         exit(EXIT_FAILURE);
       }
     }
@@ -484,7 +484,7 @@ char **shell_split_line(char *line){
   char *token;
 
   if (!tokens) {
-    fprintf(stderr, "shell: allocation error\n");
+    fprintf(stderr, "\n\nshell: %s\n\n", strerror(errno));
     exit(EXIT_FAILURE);
   }
 
@@ -497,7 +497,7 @@ char **shell_split_line(char *line){
       bufsize += shell_TOK_BUFSIZE;
       tokens = realloc(tokens, bufsize * sizeof(char*));
       if (!tokens) {
-        fprintf(stderr, "shell: allocation error\n");
+        fprintf(stderr, "\n\nshell: %s\n\n", strerror(errno));
         exit(EXIT_FAILURE);
       }
     }
@@ -547,7 +547,7 @@ int main(int argc, char **argv){
 
   //ERROR CHECKING
   if(!fptr){
-      printf("\n\n\nERR: Couldn't open file\n\n\n");
+      fprintf(stderr, "\n\nshell: %s\n\n", strerror(errno));
       strcpy(name, "root");
    }
 
