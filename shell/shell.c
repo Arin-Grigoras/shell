@@ -126,7 +126,7 @@ int shell_cls(char **args){
 //recreation of the 'cat' command
 int shell_dog(char **args){
 
-  if(args[1] == NULL ){
+  if(args[1] == NULL){
     fprintf(stderr, "\n\nshell: please provide a file\n\n");
     return 1;
   }
@@ -273,6 +273,8 @@ int shell_path(char **args){
 //recreation of the 'head' command
 int shell_hd(char **args){
 
+  char *c = (char*)malloc(sizeof(char) * 100);
+
   if(args[1] == NULL){
     fprintf(stderr, "\n\nshell: please provide a file\n\n");
     return 1;
@@ -286,10 +288,13 @@ int shell_hd(char **args){
     fprintf(stderr, "\n\nshell: Couldn't open file");
   }
 
-  char c;
-  while(EOF != (c = fgetc(fptr)) && c != '\n'){
-    putchar(c);
-  }
+
+  fscanf(fptr, "%[^\n]", c);
+  printf("%s", c);
+
+  
+  free(c);
+  fclose(fptr);
 
   return 1;
 }
