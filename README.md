@@ -10,9 +10,6 @@
  
 ## Instructions coming soon.
 
-## Website might make a website(should I?).
- 
- 
  ##Instructions coming soon.
  
 
