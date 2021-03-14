@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <limits.h>
 
 
 //GLOBAL VARIABLES
@@ -15,6 +16,7 @@ char name[25];
 int shell_cd(char **args);
 int shell_help(char **args);
 int shell_cls(char **args);
+int shell_dog(char **args);
 int shell_exit(char **args);
 
 
@@ -24,7 +26,7 @@ char *builtin_str[] = {
   "cd",
   "help",
   "cls",
-  "cat",
+  "dog",
   "exit"
 };
 
@@ -35,6 +37,7 @@ int (*builtin_func[]) (char **) = {
   &shell_cd,
   &shell_help,
   &shell_cls,
+  &shell_dog,
   &shell_exit
 };
 
@@ -70,6 +73,27 @@ int shell_cls(char **args){
 }
 
 
+
+int shell_dog(char **args){
+
+  char c;
+  FILE *fptr = fopen(args[1], "r");
+
+  if(!fptr){
+      perror("shell");
+      return 1;
+  }
+
+  c = fgetc(fptr);
+  while(c != EOF){
+      printf("%c", c);
+      c = fgetc(fptr);
+  }
+
+  fclose(fptr);
+
+  return 1;
+}
 
 
 
@@ -241,8 +265,12 @@ void shell_loop(void)
   char **args;
   int status;
 
+  char cwd[PATH_MAX];
+
+
   do {
-    printf("\033[0;32marinCLI\033[0m@\033[0;34m%s\033[0;32m$ ", name);
+    getcwd(cwd, sizeof(cwd));
+    printf("\033[0;32mArn@%s:\033[0;34m%s/\033[0;32m$ ", name ,cwd);
     printf("\033[0m");
     line = shell_read_line();
     args = shell_split_line(line);
