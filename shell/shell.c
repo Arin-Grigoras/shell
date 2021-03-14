@@ -42,7 +42,9 @@ int shell_frem(char **args);
 int shell_fmk(char **args);
 int shell_copy(char **args);
 int shell_hostnm(char **args);
-int shell_dir(char **args);
+int shell_path(char **args);
+int shell_hd(char **args);
+//int shell_tl(char **args);
 int shell_exit(char **args);
 
 
@@ -58,7 +60,9 @@ char *builtin_str[] = {
   "fmk",
   "copy",
   "hostnm",
-  "dir",
+  "path",
+  "hd",
+  //"tl",
   "exit"
 };
 
@@ -75,7 +79,9 @@ int (*builtin_func[]) (char **) = {
   &shell_fmk,
   &shell_copy,
   &shell_hostnm,
-  &shell_dir,
+  &shell_path,
+  &shell_hd,
+  //&shell_tl,
   &shell_exit
 };
 
@@ -91,6 +97,7 @@ int shell_num_builtins() {
 
 
 
+//change directory command
 int shell_cd(char **args)
 {
   if (args[1] == NULL) {
@@ -106,6 +113,7 @@ int shell_cd(char **args)
 
 
 
+//recreation of the 'clear' command
 int shell_cls(char **args){
   printf("\e[1;1H\e[2J");
 
@@ -115,8 +123,13 @@ int shell_cls(char **args){
 
 
 
-
+//recreation of the 'cat' command
 int shell_dog(char **args){
+
+  if(args[1] == NULL ){
+    fprintf(stderr, "\n\nshell: please provide a file\n\n");
+    return 1;
+  }
 
   char c;
   FILE *fptr = fopen(args[1], "r");
@@ -140,7 +153,13 @@ int shell_dog(char **args){
 
 
 
+//recreation of the 'rm' command
 int shell_frem(char **args){
+
+  if(args[1] == NULL){
+    fprintf(stderr, "\n\nshell: please provide a file\n\n");
+    return 1;
+  }
 
   if(remove(args[1]) == 0){
     printf("\nDeleted %s succesfully\n\n", args[1]);
@@ -157,7 +176,15 @@ int shell_frem(char **args){
 
 
 
+
+//recreation of the 'touch' command
 int shell_fmk(char **args){
+
+  if(args[1] == NULL){
+    fprintf(stderr, "\n\nshell: please provide a file\n\n");
+    return 1;
+  }
+
   FILE *fptr;
 
   fptr = fopen(args[1], "w");
@@ -175,8 +202,16 @@ int shell_fmk(char **args){
 
 
 
-  
+
+//recreation of the 'cp' command  
 int shell_copy(char **args){
+
+  if(args[1] == NULL){
+    fprintf(stderr, "\n\nshell: please provide a file\n\n");
+    return 1;
+  }
+
+
    char ch;
    FILE *source, *target;
 
@@ -208,6 +243,7 @@ int shell_copy(char **args){
 
 
 
+//recreation of the 'hostname' command
 int shell_hostnm(char **args){
 
   printf("\n\n%s\n\n", name);
@@ -216,8 +252,10 @@ int shell_hostnm(char **args){
 }
 
 
+  
 
-int shell_dir(char **args){
+//recreation of the 'pwd' command
+int shell_path(char **args){
 
   char cwd[PATH_MAX];
 
@@ -231,8 +269,36 @@ int shell_dir(char **args){
 
 
 
-int shell_help(char **args)
-{
+
+//recreation of the 'head' command
+int shell_hd(char **args){
+
+  if(args[1] == NULL){
+    fprintf(stderr, "\n\nshell: please provide a file\n\n");
+    return 1;
+  }
+
+  FILE *fptr;
+
+  fptr = fopen(args[1], "r");
+
+  if(!fptr){
+    fprintf(stderr, "\n\nshell: Couldn't open file");
+  }
+
+  char c;
+  while(EOF != (c = fgetc(fptr)) && c != '\n'){
+    putchar(c);
+  }
+
+  return 1;
+}
+
+
+
+
+//help command
+int shell_help(char **args){
   int i;
   printf("Arn shell\n");
   printf("The following are built in:\n");
@@ -248,8 +314,8 @@ int shell_help(char **args)
 
 
 
-int shell_exit(char **args)
-{
+//exit command
+int shell_exit(char **args){
   return 0;
 }
 
@@ -257,8 +323,8 @@ int shell_exit(char **args)
 
 
 
-int shell_launch(char **args)
-{
+//launches the commands using pid
+int shell_launch(char **args){
   pid_t pid, wpid;
   int status;
 
@@ -286,9 +352,8 @@ int shell_launch(char **args)
 
 
 
-
-int shell_execute(char **args)
-{
+//executes the command
+int shell_execute(char **args){
   int i;
 
   if (args[0] == NULL) {
@@ -313,9 +378,8 @@ int shell_execute(char **args)
 
 
 
-
-char *shell_read_line(void)
-{
+//takes in whatever the user inputed
+char *shell_read_line(void){
   int bufsize = shell_RL_BUFSIZE;
   int position = 0;
   char *buffer = malloc(sizeof(char) * bufsize);
@@ -360,9 +424,8 @@ char *shell_read_line(void)
 
 
 
-
-char **shell_split_line(char *line)
-{
+//parses
+char **shell_split_line(char *line){
   int bufsize = shell_TOK_BUFSIZE, position = 0;
   char **tokens = malloc(bufsize * sizeof(char*));
   char *token;
@@ -395,9 +458,8 @@ char **shell_split_line(char *line)
 
 
 
-
-void shell_loop(void)
-{
+//main loop
+void shell_loop(void){
   char *line;
   char **args;
   int status;
@@ -423,8 +485,7 @@ void shell_loop(void)
 
 
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv){
 
   //loads some files
     
