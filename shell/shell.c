@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <limits.h>
+#include <time.h>
 
 
 
@@ -45,6 +46,7 @@ int shell_hostnm(char **args);
 int shell_path(char **args);
 int shell_hd(char **args);
 //int shell_tl(char **args);
+int shell_time(char **args);
 int shell_exit(char **args);
 
 
@@ -63,6 +65,7 @@ char *builtin_str[] = {
   "path",
   "hd",
   //"tl",
+  "time",
   "exit"
 };
 
@@ -82,6 +85,7 @@ int (*builtin_func[]) (char **) = {
   &shell_path,
   &shell_hd,
   //&shell_tl,
+  &shell_time,
   &shell_exit
 };
 
@@ -292,11 +296,22 @@ int shell_hd(char **args){
   fscanf(fptr, "%[^\n]", c);
   printf("%s", c);
 
-  
+
   free(c);
   fclose(fptr);
 
   return 1;
+}
+
+
+
+int shell_time(char **args){
+  time_t rawtime;
+  struct tm * timeinfo;
+
+  time(&rawtime);
+  timeinfo = localtime(&rawtime);
+  printf("Current local date and time: %s", asctime(timeinfo));
 }
 
 
