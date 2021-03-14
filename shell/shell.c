@@ -1,3 +1,4 @@
+
 /*
   __File = shell.c
 
@@ -15,6 +16,8 @@
 
 //INCLUDES
 #include <sys/wait.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -22,8 +25,11 @@
 #include <limits.h>
 
 
+
 //GLOBAL VARIABLES
 char name[25];
+
+
 
 
 //PROTOTYPES
@@ -32,7 +38,10 @@ int shell_cd(char **args);
 int shell_help(char **args);
 int shell_cls(char **args);
 int shell_dog(char **args);
+int shell_frem(char **args);
+int shell_fmk(char **args);
 int shell_exit(char **args);
+
 
 
 //DATA
@@ -42,8 +51,11 @@ char *builtin_str[] = {
   "help",
   "cls",
   "dog",
+  "frem",
+  "fmk",
   "exit"
 };
+
 
 
 
@@ -53,8 +65,12 @@ int (*builtin_func[]) (char **) = {
   &shell_help,
   &shell_cls,
   &shell_dog,
+  &shell_frem,
+  &shell_fmk,
   &shell_exit
 };
+
+
 
 
 
@@ -89,6 +105,8 @@ int shell_cls(char **args){
 
 
 
+
+
 int shell_dog(char **args){
 
   char c;
@@ -112,6 +130,43 @@ int shell_dog(char **args){
 
 
 
+
+int shell_frem(char **args){
+
+  if(remove(args[1]) == 0){
+    printf("\nDeleted %s succesfully\n\n", args[1]);
+  }
+
+  else{
+    fprintf(stderr, "\n\nUnable to delete %s\n\n", args[1]);
+  }
+
+
+  return 1;
+
+}
+
+
+
+int shell_fmk(char **args){
+  FILE *fptr;
+
+  fptr = fopen(args[1], "w");
+
+  if(!fptr){
+    fprintf(stderr, "\n\nCouldn't create file\n\n");
+  }
+
+
+  fclose(fptr);
+
+
+  return 1;
+}
+
+
+
+
 int shell_help(char **args)
 {
   int i;
@@ -124,6 +179,7 @@ int shell_help(char **args)
 
   return 1;
 }
+
 
 
 
@@ -166,6 +222,7 @@ int shell_launch(char **args)
 
 
 
+
 int shell_execute(char **args)
 {
   int i;
@@ -189,6 +246,7 @@ int shell_execute(char **args)
 
 
 #define shell_RL_BUFSIZE 1024
+
 
 
 
@@ -231,8 +289,10 @@ char *shell_read_line(void)
 
 
 
+
 #define shell_TOK_BUFSIZE 64
 #define shell_TOK_DELIM " \t\r\n\a"
+
 
 
 
