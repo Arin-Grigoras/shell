@@ -8,20 +8,20 @@
    -for most of the template code.
  
  
-##Instructions coming soon.
+## Instructions coming soon.
 
-##Website might make a website(should I?).
+## Website might make a website(should I?).
  
  
  ##Instructions coming soon.
  
 
 
-##Website
+## Website
   might make a website(should I?).
 
 
 
 
-##License
+## License
    This code is under a MIT lincense, that means you can do whatever you want with the code. But I would want you to put credits in your project.
