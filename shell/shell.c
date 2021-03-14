@@ -195,6 +195,8 @@ int shell_copy(char **args){
 
    fclose(source);
    fclose(target);
+
+   return 1;
 }
 
 
