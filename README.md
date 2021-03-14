@@ -4,11 +4,18 @@
  
  __CREDITS__  = https://github.com/brenns10/lsh/blob/master/src/main.c
  
-  -for most of the template code.
+   -for most of the template code.
  
  
- Instructions coming soon.
+ ##Instructions coming soon.
  
- 
- (Might make a website for this.)
 
+
+##Website
+  might make a website(should I?).
+
+
+
+
+##License
+   This code is under a MIT lincense, that means you can do whatever you want with the code. But I would want you to put credits in your project.
