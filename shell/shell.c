@@ -107,6 +107,7 @@ int shell_cd(char **args)
 {
   if (args[1] == NULL) {
     fprintf(stderr, "shell: expected argument to \"cd\"\n");
+    return 1;
   } else {
     if (chdir(args[1]) != 0) {
       perror("shell");
@@ -172,6 +173,7 @@ int shell_frem(char **args){
 
   else{
     fprintf(stderr, "\n\nshell: Unable to delete %s\n\n", args[1]);
+    return 1;
   }
 
 
@@ -196,6 +198,7 @@ int shell_fmk(char **args){
 
   if(!fptr){
     fprintf(stderr, "\n\nshell: %s\n\n", strerror(errno));
+    return 1;
   }
 
 
@@ -219,6 +222,12 @@ int shell_copy(char **args){
   }
 
 
+  if(args[2] == NULL){
+    fprintf(stderr, "\n\nshell: please provide a file\n\n");
+    return 1;
+  }
+
+
    char ch;
    FILE *source, *target;
 
@@ -226,7 +235,8 @@ int shell_copy(char **args){
 
    //if the file can't be opened
    if (!source){
-      fprintf(stderr, "\n\nshell: Couldn't open file\n\n");
+      fprintf(stderr, "\n\nshell: %s\n\n", strerror(errno));
+      return 1;
    }
 
    target = fopen(args[2], "w");
@@ -235,6 +245,7 @@ int shell_copy(char **args){
    if (!target){
       fclose(source);
       fprintf(stderr, "\n\nshell: %s\n\n", strerror(errno));
+      return 1;
    }
 
    //copies the first file into the second file
@@ -301,6 +312,13 @@ int shell_hd(char **args){
   //If the file can't be opened
   if(!fptr){
     fprintf(stderr, "\n\nshell: %s\n\n", strerror(errno));
+    return 1;
+  }
+
+
+  if(!c){
+    fprintf(stderr, "\n\nshell: %s\n\n", strerror(errno));
+    return 1;
   }
 
 
