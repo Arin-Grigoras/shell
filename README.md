@@ -19,4 +19,4 @@
 
 
 ## License
-   This code is under a MIT lincense, that means you can do whatever you want with the code. But I would want you to put credits in your project.
+   This code is Unlicensed which means you can contribute, sell or use it wherever you want(Suggestions are welcome).
