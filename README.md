@@ -6,6 +6,11 @@
  
 
    -for most of the template code.
+   
+   
+   This project has a 10% chance that it will be worked on by me(you can contribute as much as you want and I will hapilly read over the code.) just because
+ I have more important things to do. Sorry :)
+   
  
  
 ## Instructions
@@ -26,7 +31,7 @@
 
 
 ## Website
-  might make a website(should I?).
+  I am not going to make one unfortunately.
 
 
 
