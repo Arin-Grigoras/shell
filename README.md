@@ -8,8 +8,7 @@
    -for most of the template code.
    
    
-   This project has a 10% chance that it will be worked on by me(you can contribute as much as you want and I will hapilly read over the code.) just because
- I have more important things to do. Sorry :)
+   This project has a 10% chance that it will be worked on by me(you can contribute as much as you want and I will hapilly read over the code.) but I won't contribute anymore to this piece of code just because I have more important things to do. Sorry :)
    
  
  
