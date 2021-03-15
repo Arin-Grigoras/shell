@@ -21,6 +21,7 @@
     hd. prints out the first line of a text file
     time. prints out the current time and date
     history. tells the history of the commands
+    clearhis. clears the history of commands
  
 
 
