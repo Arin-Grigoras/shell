@@ -48,6 +48,7 @@ int shell_path(char **args);
 int shell_hd(char **args);
 //int shell_tl(char **args);
 int shell_time(char **args);
+int shell_history(char **args);
 int shell_exit(char **args);
 
 
@@ -67,6 +68,7 @@ char *builtin_str[] = {
   "hd", //head(prints out the first line in a file)
   //"tl",
   "time", //time(prints out the current time)
+  "history",
   "exit" //exit(halts the program)
 };
 
@@ -87,6 +89,7 @@ int (*builtin_func[]) (char **) = {
   &shell_hd,
   //&shell_tl,
   &shell_time,
+  &shell_history,
   &shell_exit
 };
 
@@ -194,7 +197,7 @@ int shell_fmk(char **args){
 
   FILE *fptr;
 
-  fptr = fopen(args[1], "w");
+  fptr = fopen(args[1], "a");
 
   if(!fptr){
     fprintf(stderr, "\n\nshell: %s\n\n", strerror(errno));
@@ -239,7 +242,7 @@ int shell_copy(char **args){
       return 1;
    }
 
-   target = fopen(args[2], "w");
+   target = fopen(args[2], "a");
 
    //if the file can't be opened
    if (!target){
@@ -342,6 +345,36 @@ int shell_time(char **args){
   time(&rawtime);
   timeinfo = localtime(&rawtime);
   printf("Current local date and time: %s", asctime(timeinfo));
+}
+
+
+
+int shell_history(char **args){
+
+
+  char c;
+  FILE *fptr;
+  fptr = fopen("/home/arin/Documents/GitHub/shell/shell/history.txt", "r");
+
+  if(!fptr){
+      fprintf(stderr, "\n\nshell: %s\n\n", strerror(errno));
+      return 1;
+  }
+
+  printf("\nHistory of commands: \n");
+
+  c = fgetc(fptr);
+  while(c != EOF){
+      printf("%c", c);
+      c = fgetc(fptr);
+  }
+
+  printf("\n");
+
+  fclose(fptr);
+
+  return 1;
+  
 }
 
 
@@ -525,6 +558,21 @@ void shell_loop(void){
     printf("\033[0;32mArn@%s:\033[0;34m%s/\033[0;32m$ ", name ,cwd);
     printf("\033[0m");
     line = shell_read_line();
+
+    FILE *fptr = fopen("/home/arin/Documents/GitHub/shell/shell/history.txt", "a");
+
+    if(!fptr){
+      fprintf(stderr, "\n\nshell: %s\n\n", strerror(errno));
+      continue;
+    }
+
+    else{
+      fprintf(fptr, "%s\n", line);
+    }
+
+    fclose(fptr);
+
+
     args = shell_split_line(line);
     status = shell_execute(args);
 
