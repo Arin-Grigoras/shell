@@ -46,7 +46,7 @@ int shell_copy(char **args);
 int shell_hostnm(char **args);
 int shell_path(char **args);
 int shell_hd(char **args);
-//int shell_tl(char **args);
+int shell_tl(char **args);
 int shell_time(char **args);
 int shell_history(char **args);
 int shell_clearhis(char **args);
@@ -67,7 +67,7 @@ char *builtin_str[] = {
   "hostnm", //hostname(prints out the host name)
   "path",//path (prints out the current directory)
   "hd", //head(prints out the first line in a file)
-  //"tl",
+  "tl", //tail(prints out the last line in a file)
   "time", //time(prints out the current time)
   "history", //tells the history of your commands
   "clearhis", //clears the history of your commands
@@ -89,7 +89,7 @@ int (*builtin_func[]) (char **) = {
   &shell_hostnm,
   &shell_path,
   &shell_hd,
-  //&shell_tl,
+  &shell_tl,
   &shell_time,
   &shell_history,
   &shell_clearhis,
@@ -337,6 +337,20 @@ int shell_hd(char **args){
   fclose(fptr);
 
   return 1;
+}
+
+
+
+int shell_tl(char **args){
+  char tmp[1024];
+
+  FILE *fptr = fopen(args[1], "r");
+
+  while(!feof(fptr)){
+    fgets(tmp, 1024, fptr);
+  }
+
+  printf("\n%s\n", tmp);
 }
 
 
