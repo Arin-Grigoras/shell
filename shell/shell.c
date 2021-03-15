@@ -49,6 +49,7 @@ int shell_hd(char **args);
 //int shell_tl(char **args);
 int shell_time(char **args);
 int shell_history(char **args);
+int shell_clearhis(char **args);
 int shell_exit(char **args);
 
 
@@ -68,7 +69,8 @@ char *builtin_str[] = {
   "hd", //head(prints out the first line in a file)
   //"tl",
   "time", //time(prints out the current time)
-  "history",
+  "history", //tells the history of your commands
+  "clearhis", //clears the history of your commands
   "exit" //exit(halts the program)
 };
 
@@ -90,6 +92,7 @@ int (*builtin_func[]) (char **) = {
   //&shell_tl,
   &shell_time,
   &shell_history,
+  &shell_clearhis,
   &shell_exit
 };
 
@@ -122,7 +125,7 @@ int shell_cd(char **args)
 
 
 
-//recreation of the 'clear' command
+
 int shell_cls(char **args){
   printf("\e[1;1H\e[2J");
 
@@ -132,7 +135,7 @@ int shell_cls(char **args){
 
 
 
-//recreation of the 'cat' command
+
 int shell_dog(char **args){
 
   if(args[1] == NULL){
@@ -162,7 +165,7 @@ int shell_dog(char **args){
 
 
 
-//recreation of the 'rm' command
+
 int shell_frem(char **args){
 
   if(args[1] == NULL){
@@ -187,7 +190,7 @@ int shell_frem(char **args){
 
 
 
-//recreation of the 'touch' command
+
 int shell_fmk(char **args){
 
   if(args[1] == NULL){
@@ -214,7 +217,7 @@ int shell_fmk(char **args){
 
 
 
-//recreation of the 'cp' command  
+
 int shell_copy(char **args){
 
 
@@ -270,7 +273,7 @@ int shell_copy(char **args){
 
 
 
-//recreation of the 'hostname' command
+
 int shell_hostnm(char **args){
 
   printf("\n\n%s\n\n", name);
@@ -281,7 +284,7 @@ int shell_hostnm(char **args){
 
   
 
-//recreation of the 'pwd' command
+
 int shell_path(char **args){
 
   char cwd[PATH_MAX];
@@ -297,7 +300,7 @@ int shell_path(char **args){
 
 
 
-//recreation of the 'head' command
+
 int shell_hd(char **args){
 
   char *c = (char*)malloc(sizeof(char) * 100);
@@ -345,13 +348,13 @@ int shell_time(char **args){
   time(&rawtime);
   timeinfo = localtime(&rawtime);
   printf("Current local date and time: %s", asctime(timeinfo));
+
+  return 1;
 }
 
 
 
 int shell_history(char **args){
-
-
   char c;
   FILE *fptr;
   fptr = fopen("/home/arin/Documents/GitHub/shell/shell/history.txt", "r");
@@ -375,6 +378,23 @@ int shell_history(char **args){
 
   return 1;
   
+}
+
+
+
+int shell_clearhis(char **args){
+  FILE *fptr;
+
+  fptr = fopen("/home/arin/Documents/GitHub/shell/shell/history.txt", "w");
+
+  if(!fptr){
+    fprintf(stderr, "\n\nshell: %s\n\n", strerror(errno));
+    return 1;
+  }
+
+  fclose(fptr);
+
+  return 1;
 }
 
 
